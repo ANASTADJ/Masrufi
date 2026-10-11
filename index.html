@@ -139,6 +139,27 @@ svg{display:block}
 .cat-btn.more .dot{color:var(--accent)}
 .cat-btn .mlbl{position:absolute;top:100%;margin-top:2px;font-size:10px;font-weight:500;color:var(--accent);white-space:nowrap}
 #scrim3{z-index:12}
+/* bigger ring icons */
+html .cat-btn{width:52px}
+html .cat-btn .dot{width:48px;height:48px}
+html .cat-btn .dot svg{width:24px;height:24px}
+html .cat-btn .dot .emo{font-size:24px}
+html .cat-btn .nm{font-size:10.5px;max-width:70px}
+html .cat-btn.on .pct{left:calc(50% + 10px)}
+/* liquid glass */
+:root{--glb:rgba(255,255,255,.65);--gl-hi:rgba(255,255,255,.75);--b1:rgba(160,140,255,.20);--b2:rgba(110,220,200,.16);--b3:rgba(255,170,190,.18)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--glb:rgba(255,255,255,.22);--gl-hi:rgba(255,255,255,.32);--b1:rgba(139,124,255,.22);--b2:rgba(74,222,160,.10);--b3:rgba(255,115,133,.10)}}
+:root[data-theme="dark"]{--glb:rgba(255,255,255,.22);--gl-hi:rgba(255,255,255,.32);--b1:rgba(139,124,255,.22);--b2:rgba(74,222,160,.10);--b3:rgba(255,115,133,.10)}
+html body{background:radial-gradient(60% 38% at 92% 0%,var(--b1),transparent 70%),radial-gradient(55% 38% at 0% 48%,var(--b2),transparent 70%),radial-gradient(70% 42% at 82% 100%,var(--b3),transparent 70%),var(--bg)}
+html .cat-btn.more{--c:#8B7CFF}
+html :is(.cprev,.incprev .ip){--c:#8E7CC3}
+html :is(.cat-btn.on .dot,.row .dot,.mi .dot,.bi .mr .ci,.cprev,.incprev .ip,.chip[aria-pressed="true"] .dot,.igrid .ib[aria-pressed="true"] .ico){background:linear-gradient(150deg,color-mix(in srgb,var(--c) 50%,#fff) 0%,color-mix(in srgb,var(--c) 88%,transparent) 100%);color:#fff}
+html :is(.cat-btn:not(.on):not(.add) .dot,.chip:not([aria-pressed="true"]):not(.addc) .dot,.igrid .ib:not([aria-pressed="true"]) .ico){background:linear-gradient(150deg,color-mix(in srgb,var(--c) 26%,var(--surface)) 0%,color-mix(in srgb,var(--c) 12%,transparent) 100%);color:color-mix(in srgb,var(--c) 80%,var(--text))}
+html :is(.cat-btn:not(.add) .dot,.row .dot,.mi .dot,.bi .mr .ci,.cprev,.incprev .ip,.chip:not(.addc) .dot,.igrid .ib .ico){border:1px solid var(--glb);-webkit-backdrop-filter:blur(14px) saturate(1.7);backdrop-filter:blur(14px) saturate(1.7);box-shadow:inset 0 1.5px 1px var(--gl-hi),inset 0 -8px 14px -8px rgba(255,255,255,.3),0 10px 20px -10px color-mix(in srgb,var(--c) 65%,transparent)}
+html :is(.cat-btn:not(.add) .dot,.row .dot,.mi .dot,.cprev,.incprev .ip,.chip:not(.addc) .dot,.igrid .ib .ico){position:relative;overflow:hidden}
+html :is(.cat-btn:not(.add) .dot,.row .dot,.mi .dot,.bi .mr .ci,.cprev,.incprev .ip,.chip:not(.addc) .dot,.igrid .ib .ico)::before{content:"";position:absolute;left:7%;right:7%;top:4%;height:52%;border-radius:50% 50% 45% 45%/60% 60% 40% 40%;background:radial-gradient(70% 60% at 30% 20%,rgba(255,255,255,.7),rgba(255,255,255,0) 72%),linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,0));pointer-events:none}
+html :is(.cat-btn:not(.add) .dot,.row .dot,.mi .dot,.bi .mr .ci,.cprev,.incprev .ip,.chip:not(.addc) .dot,.igrid .ib .ico)>:is(svg,.emo){position:relative;z-index:1;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.18))}
+.sheet:not(.open){box-shadow:none}
 .catsheet>.slist,.catsheet>.igrid,.catsheet>.mgrid,.catsheet>.blist{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px}
 html[dir="ltr"] .spill,html[dir="ltr"] .bi,html[dir="ltr"] .cu,html[dir="ltr"] .curbtn{text-align:left}
 html[dir="ltr"] .bi .am{text-align:right}
@@ -854,7 +875,7 @@ $('iFile').onchange=e=>{
 /* income editor */
 let inc={id:null,n:'',c:INC_COLORS[0],i:INC_ICONS[0].p,e:'',confirm:false};
 function paintInc(){
-  $('iIco').style.background=inc.c;$('iIco').innerHTML=catIcon(inc);
+  $('iIco').style.setProperty('--c',inc.c);$('iIco').innerHTML=catIcon(inc);
   $('iPName').textContent=inc.n.trim()||'اسم الفئة';
   $('iColors').innerHTML=INC_COLORS.map(c=>`<button class="sw" style="background:${c}" data-c="${c}" aria-pressed="${inc.c===c}" aria-label="لون"></button>`).join('');
   $('iIcons').innerHTML=INC_ICONS.map((o,k)=>`<button class="ib" data-k="${k}" aria-pressed="${!inc.e&&!inc.img&&inc.i===o.p}" style="--c:${inc.c}" aria-label="${o.n}"><span class="ico">${ic(o.p)}</span><span class="il">${o.n}</span></button>`).join('');
@@ -1522,7 +1543,7 @@ function setEditing(v){
 }
 $('editBtn').onclick=()=>setEditing(!editing);
 function paintCat(){
-  $('cPrev').style.background=cat.c;$('cPrev').innerHTML=catIcon(cat);
+  $('cPrev').style.setProperty('--c',cat.c);$('cPrev').innerHTML=catIcon(cat);
   $('cColors').innerHTML=COLORS.map(c=>`<button class="sw" style="background:${c}" data-c="${c}" aria-pressed="${cat.c===c}" aria-label="لون"></button>`).join('');
   $('cIcons').innerHTML=ICON_POOL.slice(0,showAllIcons?ICON_POOL.length:ICON_HALF).map((p,k)=>`<button class="ib" data-k="${k}" aria-pressed="${!cat.e&&!cat.img&&cat.i===p}" style="--c:${cat.c}" aria-label="${ICON_NAMES[k]}"><span class="ico">${ic(p)}</span><span class="il">${ICON_NAMES[k]}</span></button>`).join('');
   $('cIcons').insertAdjacentHTML('beforeend',`<button class="moreb">${showAllIcons?'عرض أقل':'المزيد'}</button>`);
